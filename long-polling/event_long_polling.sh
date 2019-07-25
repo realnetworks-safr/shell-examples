@@ -5,12 +5,12 @@ AUTHENTICATION=$1
 AUTHORIZATION=$2
 
 echo "===> Retrieving the current time from the server. <==="
-echo "curl $BASE_URL/event/status -H \"X-RPC-AUTHORIZATION: $AUTHENTICATION\" -H \"Authorization: $AUTHORIZATION\""
+echo "curl $BASE_URL/event/status -H \"X-RPC-AUTHORIZATION: $AUTHENTICATION\" -H \"X-RPC-DIRECTORY: $AUTHORIZATION\""
 
 curl \
   "$BASE_URL/event/status" \
   -H "X-RPC-AUTHORIZATION: $AUTHENTICATION" \
-  -H "Authorization: $AUTHORIZATION"\
+  -H "X-RPC-DIRECTORY: $AUTHORIZATION"\
  | python -m json.tool > response_mod_date.json
 
 cat response_mod_date.json
@@ -20,11 +20,11 @@ originalModDate=$lastModDate
 
 while : 
 do 
-	echo "curl $BASE_URL/event/status/?since=$lastModDate -H \"X-RPC-AUTHORIZATION: $AUTHENTICATION\" -H \"Authorization: $AUTHORIZATION\""
+	echo "curl $BASE_URL/event/status/?since=$lastModDate -H \"X-RPC-AUTHORIZATION: $AUTHENTICATION\" -H \"X-RPC-DIRECTORY: $AUTHORIZATION\""
     curl \
      "$BASE_URL/event/status/?since=$lastModDate" \
       -H "X-RPC-AUTHORIZATION: $AUTHENTICATION" \
-      -H "Authorization: $AUTHORIZATION"\
+      -H "X-RPC-DIRECTORY: $AUTHORIZATION"\
      | python -m json.tool > response_mod_date.json
 
     cat response_mod_date.json
@@ -37,11 +37,11 @@ do
         lastModDate=$previousModDate
         echo "==================================== no events...204 =========================================="
     else
-		echo "$BASE_URL/events?sinceModDate=$previousModDate&sinceTime=$originalModDate -H \"X-RPC-AUTHORIZATION: $AUTHENTICATION\" -H \"Authorization: $AUTHORIZATION\""
+		echo "$BASE_URL/events?sinceModDate=$previousModDate&sinceTime=$originalModDate -H \"X-RPC-AUTHORIZATION: $AUTHENTICATION\" -H \"X-RPC-DIRECTORY: $AUTHORIZATION\""
         curl \
          "$BASE_URL/events?sinceModDate=$previousModDate&sinceTime=$originalModDate" \
           -H "X-RPC-AUTHORIZATION: $AUTHENTICATION" \
-          -H "Authorization: $AUTHORIZATION"\
+          -H "X-RPC-DIRECTORY: $AUTHORIZATION"\
          | python -m json.tool > events_response_mod_date.json
 
         cat events_response_mod_date.json
