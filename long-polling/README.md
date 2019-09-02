@@ -1,5 +1,5 @@
 # safr-long-pooling
-Example of long polling for integration purposes using SAFR plataform
+Example of long polling for integration purposes using SAFR plataform. For this example Python 3 must be installed.
 
 # Usage  
 - Change AUTHENTICATION and AUTHORIZATION
